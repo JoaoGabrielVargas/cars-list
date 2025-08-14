@@ -61,3 +61,138 @@ def delete_brand(id):
     db.session.commit()
 
     return jsonify({'message': 'Marca excluída'}), 200
+
+## CRUD para tabela Modelos
+
+@app.route('/models', methods=['POST'])
+def create_model():
+    dados = request.json
+    marca_id = dados['marca_id']
+
+    marca = Marca.query.get(marca_id)
+    if not marca:
+        return jsonify({'message': 'Marca não encontrada'}), 400
+    
+    novo_modelo = Modelo(
+        nome=dados['nome'],
+        valor_fipe=dados['valor_fipe'],
+        marca_id=marca_id
+    )
+
+    db.session.add(novo_modelo)
+    db.session.commit()
+
+    return modelo_schema.jsonify(novo_modelo), 201
+
+
+@app.route('/models', methods=['GET'])
+def get_models():
+    todos_modelos = Modelo.query.all()
+    return modelo_schema.jsonify(todos_modelos)
+
+
+app.route('/models/<int:id>', methods=['GET'])
+def get_model(id):
+    modelo = Modelo.query.get(id)
+    if not modelo:
+        return jsonify({'message': 'Modelo não encontrado'}), 404
+    return modelo_schema.jsonify(modelo)
+
+
+app.route('/models/<int:id>', methods=['PUT'])
+def update_model(id):
+    modelo = Modelo.query.get(id)
+    if not modelo:
+        return jsonify({'message': 'Modelo não encontrado'}), 404
+    
+    nome = request.json.get('nome')
+    if nome != modelo.nome:
+        existing_model = Marca.query.filter_by(nome=nome).first()
+        if existing_model:
+            return jsonify({'message': 'Nome de modelo já existe'}), 400
+        
+    modelo.nome = nome
+    db.session.commit()
+
+    return marca_schema.jsonify(modelo)
+
+@app.route('/models/<int:id>', methods={'DELETE'})
+def delete_model(id):
+    modelo = Modelo.query.get(id)
+    if not modelo:
+        return jsonify({'message': 'Modelo não encontrada'}), 404
+    
+    db.session.delete(modelo)
+    db.session.commit()
+
+    return jsonify({'message': 'Modelo excluído'}), 200
+
+## CRUD PARA CARROS
+
+@app.route('/cars', methods=['POST'])
+def create_car():
+    dados = request.json
+    modelo_id = dados['modelo_id']
+
+    modelo = Modelo.query.get(modelo_id)
+    if not modelo:
+        return jsonify({'message': 'Modelo não encontrado'}), 400
+    
+    novo_carro = Carro(
+        ano=dados['ano'],
+        combustivel=dados['combustivel'],
+        num_portas=dados['num_portas'],
+        cor=dados['cor'],
+        modelo_id=modelo_id
+    )
+
+    db.session.add(novo_carro)
+    db.session.commit()
+
+    return carro_schema.jsonify(novo_carro), 201
+
+@app.route('/cars', methods=['GET'])
+def get_cars():
+    todos_carros = Carro.query.all()
+    return carros_schema.jsonify(todos_carros)
+
+app.route('/cars/<int:id>', methods=['GET'])
+def get_car(id):
+    carro = Carro.query.get(id)
+    if not carro:
+        return jsonify({'message': 'Carro não encontrado'}), 404
+    return carro_schema.jsonify(carro)
+
+
+@app.route('/cars/<int:id>', methods=['PUT'])
+def update_car(id):
+    carro = Carro.query.get(id)
+    if not carro:
+        return jsonify({'message': 'Carro não encontrado'}), 404
+    
+    dados = request.json
+    modelo_id = dados.get('modelo_id', carro.modelo_id)
+    
+    if modelo_id != carro.modelo_id:
+        modelo = Modelo.query.get(modelo_id)
+        if not modelo:
+            return jsonify({'message': 'Modelo não encontrado'}), 400
+        carro.modelo_id = modelo_id
+    
+    carro.ano = dados.get('ano', carro.ano)
+    carro.combustivel = dados.get('combustivel', carro.combustivel)
+    carro.num_portas = dados.get('num_portas', carro.num_portas)
+    carro.cor = dados.get('cor', carro.cor)
+    
+    db.session.commit()
+    return carro_schema.jsonify(carro)
+
+@app.route('/cars/<int:id>', methods=['DELETE'])
+def delete_car(id):
+    carro = Carro.query.get(id)
+    if not carro:
+        return jsonify({'message': 'Carro não encontrado'}), 404
+    
+    db.session.delete(carro)
+    db.session.commit()
+    return jsonify({'message': 'Carro excluído com sucesso'}), 200
