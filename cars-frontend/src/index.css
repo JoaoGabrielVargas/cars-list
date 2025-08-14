@@ -1,0 +1,20 @@
+/* AQUI INSERI TODAS PROPRIEDADES GLOBAIS, RESET DE CSS, COR DE BACKGROUND E FONTES */
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: #FBFBFF;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1 {
+  color: #2E2D37;
+}
+
+p {
+  color: #777784;
+}
