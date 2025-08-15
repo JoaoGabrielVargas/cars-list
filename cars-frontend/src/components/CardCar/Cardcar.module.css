@@ -5,8 +5,34 @@
   border: 1px solid #EDECF2;
   background-color: white;
   width: 20%;
-  height: 140px;
   border-radius: 10px;
   overflow: hidden;
   padding: 20px;
+}
+
+.button_container {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.button {
+  border: none;
+  padding: 8px 12px;
+  background-color: #6A6977;
+  color: #FFF;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.button:hover {
+  background-color: #EDECF2;
+  color: #6A6977
+}
+
+.value {
+  color: #2E2D37;
+  font-weight: bold;
+  font-size: 18px;
 }

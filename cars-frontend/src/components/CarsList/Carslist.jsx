@@ -2,14 +2,24 @@
 
 import Cardcar from '../CardCar/Cardcar'
 import styles from './Carslist.module.css'
+import { memo } from 'react'
 
-export default function Carslist({carsMock}) {
+const Carslist = memo(({ carsList, onDeleteCar, onEditCar }) => {
   return (
     <div className={styles.container}>
-      <p>{`${carsMock.length} carros encontrados`}</p>
+      <p>{`${carsList.length} carros encontrados`}</p>
       <div className={styles.main}>
-        {carsMock.map((car) => <Cardcar  car={car}/>)}
+        {carsList.map((car) => (
+          <Cardcar
+            car={car}
+            key={car.id}
+            onDeleteCar={onDeleteCar}
+            onEditCar={onEditCar}
+          />
+        ))}
       </div>
     </div>
   )
-}
+});
+
+export default Carslist

@@ -1,0 +1,147 @@
+.sidemenu {
+  width: 280px;
+  height: 90vh;
+  background-color: #ffffff;
+  color: #333333;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  /* Ocultar barra de rolagem */
+  scrollbar-width: none; /* Firefox */
+}
+
+.sidemenu::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.header {
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.newCarButton {
+  background-color: #e41e26; /* Vermelho da Webmotors */
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.newCarButton:hover {
+  background-color: #c00;
+}
+
+.filterSection {
+  padding: 15px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.sectionTitle {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: bold;
+}
+
+.optionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.optionItem {
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.optionItem:hover {
+  background-color: #f5f5f5;
+}
+
+.optionItem.selected {
+  background-color: #e41e26;
+  color: white;
+  border-color: #e41e26;
+}
+
+.input, .select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.input:focus, .select:focus {
+  outline: none;
+  border-color: #e41e26;
+}
+
+.rangeInputs {
+  display: flex;
+  gap: 10px;
+}
+
+.rangeField {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.rangeField label {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 15px;
+}
+
+.applyButton, .resetButton {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.applyButton {
+  background-color: #e41e26;
+  color: white;
+}
+
+.resetButton {
+  background-color: #f5f5f5;
+  color: #333;
+  border: 1px solid #e0e0e0;
+}
+
+.applyButton:hover {
+  opacity: 0.9;
+}
+
+.resetButton:hover {
+  background-color: #e0e0e0;
+}

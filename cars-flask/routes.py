@@ -166,11 +166,13 @@ def get_car(id):
 
 @app.route('/cars/<int:id>', methods=['PUT'])
 def update_car(id):
+    print("chamou função")
     carro = Carro.query.get(id)
     if not carro:
         return jsonify({'message': 'Carro não encontrado'}), 404
     
     dados = request.json
+    print("DADOS", dados)
     modelo_id = dados.get('modelo_id', carro.modelo_id)
     
     if modelo_id != carro.modelo_id:
