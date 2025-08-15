@@ -3,7 +3,7 @@ import './App.css'
 import Carslist from './components/CarsList/Carslist'
 import Sidemenu from './components/Sidemenu/Sidemenu'
 
-const API_URL = 'http://localhost:5000/cars'
+const API_URL = 'http://localhost:5000'
 
 function App() {
   const [carsList, setCarsList] = useState([])
@@ -11,7 +11,7 @@ function App() {
 
   const fetchCars = useCallback(async () => {
     try {
-      const response = await fetch(API_URL)
+      const response = await fetch(`${API_URL}/cars`)
       if (!response.ok) throw new Error('Erro ao carregar carros')
       setCarsList(await response.json())
     } catch (err) {
@@ -27,7 +27,7 @@ function App() {
 
   const handleDeleteCar = useCallback(async (carId) => {
     try {
-      const response = await fetch(`${API_URL}/${carId}`, {
+      const response = await fetch(`${API_URL}/cars/${carId}`, {
         method: "DELETE"
       })
       if (!response.ok) throw new Error('Falha ao deletar carro');
@@ -42,12 +42,12 @@ function App() {
 
   const handleEditCar = useCallback(async (carId, updatedData) => {
     try {
-      const response = await fetch(`${API_URL}/${carId}`, { 
-        method: "PUT", 
+      const response = await fetch(`${API_URL}/cars/${carId}`, {
+        method: "PUT",
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(updatedData) 
+        body: JSON.stringify(updatedData)
       });
       if (!response.ok) throw new Error('Falha ao atualizar carro')
       const updatedCar = await response.json()
@@ -55,7 +55,7 @@ function App() {
     } catch (error) {
       setError(error.message)
     }
-  }, [])
+  }, []);
 
   return (
     <div style={{ paddingTop: "15px", paddingLeft: "15px" }}>

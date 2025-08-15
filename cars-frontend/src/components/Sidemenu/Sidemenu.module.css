@@ -10,12 +10,10 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  /* Ocultar barra de rolagem */
-  scrollbar-width: none; /* Firefox */
 }
 
 .sidemenu::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none; 
 }
 
 .header {
@@ -24,7 +22,7 @@
 }
 
 .newCarButton {
-  background-color: #e41e26; /* Vermelho da Webmotors */
+  background-color: #2E2D37; 
   color: white;
   border: none;
   padding: 12px 20px;
@@ -37,7 +35,7 @@
 }
 
 .newCarButton:hover {
-  background-color: #c00;
+  background-color: #6A6977;
 }
 
 .filterSection {

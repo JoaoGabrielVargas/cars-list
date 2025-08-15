@@ -51,7 +51,7 @@ def update_brand(id):
 
     return marca_schema.jsonify(marca)
 
-@app.route('/brands/<int:id>', methods={'DELETE'})
+@app.route('/brands/<int:id>', methods=['DELETE'])
 def delete_brand(id):
     marca = Marca.query.get(id)
     if not marca:
@@ -88,10 +88,26 @@ def create_model():
 @app.route('/models', methods=['GET'])
 def get_models():
     todos_modelos = Modelo.query.all()
-    return modelo_schema.jsonify(todos_modelos)
+    return modelos_schema.jsonify(todos_modelos)
+
+# Rota para buscar modelos por MARCA
+@app.route('/models/by_brand', methods=['GET'])
+def get_models_by_brand():
+    brand_ids = request.args.getlist('brand_ids[]')  # Recebe array de IDs
+    
+    if not brand_ids:
+        return jsonify([]), 200
+    
+    try:
+        brand_ids = [int(id) for id in brand_ids]
+    except ValueError:
+        return jsonify({"error": "IDs inválidos"}), 400
+    
+    modelos = Modelo.query.filter(Modelo.marca_id.in_(brand_ids)).all()
+    return modelos_schema.jsonify(modelos)
 
 
-app.route('/models/<int:id>', methods=['GET'])
+@app.route('/models/<int:id>', methods=['GET'])
 def get_model(id):
     modelo = Modelo.query.get(id)
     if not modelo:
@@ -99,7 +115,7 @@ def get_model(id):
     return modelo_schema.jsonify(modelo)
 
 
-app.route('/models/<int:id>', methods=['PUT'])
+@app.route('/models/<int:id>', methods=['PUT'])
 def update_model(id):
     modelo = Modelo.query.get(id)
     if not modelo:
@@ -107,14 +123,14 @@ def update_model(id):
     
     nome = request.json.get('nome')
     if nome != modelo.nome:
-        existing_model = Marca.query.filter_by(nome=nome).first()
+        existing_model = Modelo.query.filter_by(nome=nome).first()
         if existing_model:
             return jsonify({'message': 'Nome de modelo já existe'}), 400
         
     modelo.nome = nome
     db.session.commit()
 
-    return marca_schema.jsonify(modelo)
+    return modelo_schema.jsonify(modelo)
 
 @app.route('/models/<int:id>', methods={'DELETE'})
 def delete_model(id):
@@ -166,13 +182,11 @@ def get_car(id):
 
 @app.route('/cars/<int:id>', methods=['PUT'])
 def update_car(id):
-    print("chamou função")
     carro = Carro.query.get(id)
     if not carro:
         return jsonify({'message': 'Carro não encontrado'}), 404
     
     dados = request.json
-    print("DADOS", dados)
     modelo_id = dados.get('modelo_id', carro.modelo_id)
     
     if modelo_id != carro.modelo_id:
