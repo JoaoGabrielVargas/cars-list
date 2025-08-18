@@ -109,7 +109,7 @@ function App() {
   }, []);
 
   return (
-    <div style={{ paddingTop: "15px", paddingLeft: "15px" }}>
+    <div style={{ padding: "15px" }}>
       <h1>WS Motors - Cars List</h1>
       {error && <p>error</p>}
       <main style={{ display: "flex", padding: "15px", gap: "40px" }}>

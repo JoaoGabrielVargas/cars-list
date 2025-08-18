@@ -5,13 +5,13 @@ import ModalCreateNew from '../ModalCreateNew/ModalCreateNew';
 
 const API_URL = 'http://localhost:5000'
 
-export default function Sidemenu({fetchCars, handleApplyFilters}) {
+export default function Sidemenu({ fetchCars, handleApplyFilters }) {
   const [filters, setFilters] = useState({
     selectedBrands: [],
     selectedModels: [],
     doors: '',
     color: '',
-    fuelType: '',
+    fuel: '',
     minYear: 1950,
     maxYear: new Date().getFullYear(),
     minValue: 0,
@@ -51,7 +51,7 @@ export default function Sidemenu({fetchCars, handleApplyFilters}) {
     fetchModels();
   }, []);
 
-const handleCreateBrand = async (brandName) => {
+  const handleCreateBrand = async (brandName) => {
     try {
       const response = await fetch(`${API_URL}/brands`, {
         method: 'POST',
@@ -60,22 +60,22 @@ const handleCreateBrand = async (brandName) => {
         },
         body: JSON.stringify({ nome_marca: brandName })
       });
-      
+
       if (!response.ok) throw new Error('Erro ao criar marca');
-      
+
       const createdBrand = await response.json();
-      
+
       setBrandOptions(prev => [...prev, createdBrand]);
-      
-      setShowCreateNewModal({isOpen: false, content: ""});
-      
+
+      setShowCreateNewModal({ isOpen: false, content: "" });
+
     } catch (error) {
       console.error('Erro ao criar marca:', error);
       setError(error.message)
     }
   };
 
-const handleCreateModel = async (modelName, brand, fipe_value) => {
+  const handleCreateModel = async (modelName, brand, fipe_value) => {
     try {
       const response = await fetch(`${API_URL}/models`, {
         method: 'POST',
@@ -84,15 +84,15 @@ const handleCreateModel = async (modelName, brand, fipe_value) => {
         },
         body: JSON.stringify({ nome: modelName, marca_id: brand, valor_fipe: fipe_value })
       });
-      
+
       if (!response.ok) throw new Error('Erro ao criar modelo');
-      
+
       const createdModel = await response.json();
-      
+
       setModelOptions(prev => [...prev, createdModel]);
-      
-      setShowCreateNewModal({isOpen: false, content: ""});
-      
+
+      setShowCreateNewModal({ isOpen: false, content: "" });
+
     } catch (error) {
       console.error('Erro ao criar modelo:', error);
       setError(error.message)
@@ -116,12 +116,12 @@ const handleCreateModel = async (modelName, brand, fipe_value) => {
         },
         body: JSON.stringify(newCarObj)
       });
-      
+
       if (!response.ok) throw new Error('Erro ao criar carro');
-      
+
       fetchCars();
-      setShowCreateNewModal({isOpen: false, content: ""});
-      
+      setShowCreateNewModal({ isOpen: false, content: "" });
+
     } catch (error) {
       console.error('Erro ao criar carro:', error);
       setError(error.message)
@@ -133,35 +133,35 @@ const handleCreateModel = async (modelName, brand, fipe_value) => {
   };
 
   // Sidemenu.jsx
-const toggleBrandSelection = (brandId) => {
-  setFilters(prev => {
-    const newSelectedBrands = prev.selectedBrands.includes(brandId)
-      ? prev.selectedBrands.filter(id => id !== brandId)
-      : [...prev.selectedBrands, brandId];
-    
-    return {
+  const toggleBrandSelection = (brandId) => {
+    setFilters(prev => {
+      const newSelectedBrands = prev.selectedBrands.includes(brandId)
+        ? prev.selectedBrands.filter(id => id !== brandId)
+        : [...prev.selectedBrands, brandId];
+
+      return {
+        ...prev,
+        selectedBrands: newSelectedBrands,
+        // Limpar modelos selecionados quando muda as marcas
+        selectedModels: []
+      };
+    });
+  };
+
+  const toggleModelSelection = (modelId) => {
+    setFilters(prev => ({
       ...prev,
-      selectedBrands: newSelectedBrands,
-      // Limpar modelos selecionados quando muda as marcas
-      selectedModels: [] 
-    };
-  });
-};
+      selectedModels: prev.selectedModels.includes(modelId)
+        ? prev.selectedModels.filter(id => id !== modelId)
+        : [...prev.selectedModels, modelId]
+    }));
+  };
 
-const toggleModelSelection = (modelId) => {
-  setFilters(prev => ({
-    ...prev,
-    selectedModels: prev.selectedModels.includes(modelId)
-      ? prev.selectedModels.filter(id => id !== modelId)
-      : [...prev.selectedModels, modelId]
-  }));
-};
-
-const filteredModels = filters.selectedBrands.length > 0
-  ? modelOptions.filter(model => 
+  const filteredModels = filters.selectedBrands.length > 0
+    ? modelOptions.filter(model =>
       filters.selectedBrands.includes(model.marca_id)
     )
-  : [];
+    : [];
 
   //gerar anos de 1950 até o ano atual
   const currentYear = new Date().getFullYear();
@@ -172,7 +172,7 @@ const filteredModels = filters.selectedBrands.length > 0
       <div className={styles.header}>
         <button
           className={styles.newCarButton}
-          onClick={() => setShowCreateNewModal({isOpen: true, content: "newCar"})}
+          onClick={() => setShowCreateNewModal({ isOpen: true, content: "newCar" })}
         >
           + Anunciar novo carro
         </button>
@@ -181,7 +181,7 @@ const filteredModels = filters.selectedBrands.length > 0
       <div className={styles.header}>
         <button
           className={styles.newCarButton}
-          onClick={() => setShowCreateNewModal({isOpen: true, content: "brand"})}
+          onClick={() => setShowCreateNewModal({ isOpen: true, content: "brand" })}
         >
           Criar marca
         </button>
@@ -190,7 +190,7 @@ const filteredModels = filters.selectedBrands.length > 0
       <div className={styles.header}>
         <button
           className={styles.newCarButton}
-          onClick={() => setShowCreateNewModal({isOpen: true, content: "model"})}
+          onClick={() => setShowCreateNewModal({ isOpen: true, content: "model" })}
         >
           Criar modelo
         </button>
@@ -255,8 +255,8 @@ const filteredModels = filters.selectedBrands.length > 0
         <h3 className={styles.sectionTitle}>Combustível</h3>
         <input
           type="text"
-          value={filters.fuelType}
-          onChange={(e) => handleFilterChange('fuelType', e.target.value)}
+          value={filters.fuel}
+          onChange={(e) => handleFilterChange('fuel', e.target.value)}
           placeholder="Ex: Gasolina, Álcool"
           className={styles.input}
         />
@@ -329,24 +329,28 @@ const filteredModels = filters.selectedBrands.length > 0
         </button>
         <button
           className={styles.resetButton}
-          onClick={() => setFilters({
-            selectedBrands: [],
-            selectedModels: [],
-            doors: '',
-            color: '',
-            fuelType: '',
-            minYear: 1990,
-            maxYear: currentYear,
-            minValue: 0,
-            maxValue: 500000
-          })}
+          onClick={() => {
+            setFilters({
+              selectedBrands: [],
+              selectedModels: [],
+              doors: '',
+              color: '',
+              fuel: '',
+              minYear: 1990,
+              maxYear: currentYear,
+              minValue: 0,
+              maxValue: 500000
+            })
+            handleApplyFilters({});
+            }
+          }
         >
           Limpar Filtros
         </button>
       </div>
       {showCreateNewModal.isOpen && <ModalCreateNew
         isOpen={showCreateNewModal}
-        onClose={() => setShowCreateNewModal({isOpen: false, content: ""})}
+        onClose={() => setShowCreateNewModal({ isOpen: false, content: "" })}
         onCreateBrand={handleCreateBrand}
         content={showCreateNewModal.content}
         brandOptions={brandOptions}
