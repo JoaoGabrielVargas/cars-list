@@ -90,23 +90,6 @@ def get_models():
     todos_modelos = Modelo.query.all()
     return modelos_schema.jsonify(todos_modelos)
 
-# Rota para buscar modelos por MARCA
-@app.route('/models/by_brand', methods=['GET'])
-def get_models_by_brand():
-    brand_ids = request.args.getlist('brand_ids[]')  # Recebe array de IDs
-    
-    if not brand_ids:
-        return jsonify([]), 200
-    
-    try:
-        brand_ids = [int(id) for id in brand_ids]
-    except ValueError:
-        return jsonify({"error": "IDs inválidos"}), 400
-    
-    modelos = Modelo.query.filter(Modelo.marca_id.in_(brand_ids)).all()
-    return modelos_schema.jsonify(modelos)
-
-
 @app.route('/models/<int:id>', methods=['GET'])
 def get_model(id):
     modelo = Modelo.query.get(id)
