@@ -74,15 +74,15 @@ cars-frontend/     # Frontend (ReactJS)
 
 <p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
   <p>Home</p>
-  <img alt="WebHome" title="#WebHome" src="https://github.com/JoaoGabrielVargas/cars-list/blob/main/cars-frontend/src/assets/print_home.png" width="400px">
-  
-  <img alt="WebNewCarModal" title="#WebNewCarModal" src="https://github.com/JoaoGabrielVargas/cars-list/blob/main/cars-frontend/src/assets/print_new_car_modal.png" width="400px">
-
-  <img alt="WebNewModelModal" title="#WebNewModelModal" src="https://github.com/JoaoGabrielVargas/cars-list/blob/main/cars-frontend/src/assets/print_new_model_modal.png" width="400px">
-  
-  <img alt="WebFilterExample1" title="#WebFilterExample1" src="https://github.com/JoaoGabrielVargas/cars-list/blob/main/cars-frontend/src/assets/print_filter_example1.png" width="400px">
-
-  <img alt="WebFilterExample2" title="#WebFilterExample2" src="https://github.com/JoaoGabrielVargas/cars-list/blob/main/cars-frontend/src/assets/print_filter_example1.png" width="400px">
+  <img alt="WebHome" title="#WebHome" src="https://github.com/JoaoGabrielVargas/cars-list/blob/main/cars-frontend/src/assets/print_home.png" width="800px">
+  <p>Modal para criar novo carro</p>
+  <img alt="WebNewCarModal" title="#WebNewCarModal" src="https://github.com/JoaoGabrielVargas/cars-list/blob/main/cars-frontend/src/assets/print_new_car_modal.png" width="800px">
+  <p>Modal para criar novo modelo</p>
+  <img alt="WebNewModelModal" title="#WebNewModelModal" src="https://github.com/JoaoGabrielVargas/cars-list/blob/main/cars-frontend/src/assets/print_new_model_modal.png" width="800px">
+  <p>Exemplo de filtros selecionados - Marca "Fiat" - Modelo "Uno" - Número de portas "2", Cor "Roxo"</p>
+  <img alt="WebFilterExample1" title="#WebFilterExample1" src="https://github.com/JoaoGabrielVargas/cars-list/blob/main/cars-frontend/src/assets/print_filter_example1.png" width="800px">
+  <p>Exemplo de filtros selecionando apenas "Uno" como modelo e sem filtros adicionais, resultando na lista com todos Uno's</p>
+  <img alt="WebFilterExample2" title="#WebFilterExample2" src="https://github.com/JoaoGabrielVargas/cars-list/blob/main/cars-frontend/src/assets/print_filter_example1.png" width="800px">
 </p>
 
 ---
