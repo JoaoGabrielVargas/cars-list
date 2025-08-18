@@ -218,14 +218,3 @@ const handleApplyFilters = (filters) => {
   setCarsList(filtered);
 }
 ```
-
----
-
-## ✅ Observações Finais
-
-- Aplicação pronta para entrega.
-- Frontend e backend bem estruturados e documentados.
-- Funcionalidades de CRUD e filtros totalmente implementadas.
-- Interface limpa e clara para o usuário.
-
----
