@@ -159,7 +159,8 @@ def create_car():
         combustivel=dados['combustivel'],
         num_portas=dados['num_portas'],
         cor=dados['cor'],
-        modelo_id=modelo_id
+        modelo_id=modelo_id,
+        marca_id=modelo.marca_id
     )
 
     db.session.add(novo_carro)
@@ -194,6 +195,7 @@ def update_car(id):
         if not modelo:
             return jsonify({'message': 'Modelo não encontrado'}), 400
         carro.modelo_id = modelo_id
+        carro.marca_id = modelo.marca_id
     
     carro.ano = dados.get('ano', carro.ano)
     carro.combustivel = dados.get('combustivel', carro.combustivel)

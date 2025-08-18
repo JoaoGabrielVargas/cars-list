@@ -28,6 +28,7 @@ class Carro(db.Model):
 
     ## foreign key para modelo
     modelo_id = db.Column(db.Integer, db.ForeignKey('modelo.id'), nullable=False)
+    marca_id = db.Column(db.Integer, db.ForeignKey('marca.id'), nullable=False)
 
 
 ## SCHEMAS 

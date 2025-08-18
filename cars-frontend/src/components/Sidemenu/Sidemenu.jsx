@@ -5,10 +5,10 @@ import ModalCreateNew from '../ModalCreateNew/ModalCreateNew';
 
 const API_URL = 'http://localhost:5000'
 
-export default function Sidemenu() {
+export default function Sidemenu({fetchCars, handleApplyFilters}) {
   const [filters, setFilters] = useState({
-    brands: [],
-    models: [],
+    selectedBrands: [],
+    selectedModels: [],
     doors: '',
     color: '',
     fuelType: '',
@@ -76,7 +76,6 @@ const handleCreateBrand = async (brandName) => {
   };
 
 const handleCreateModel = async (modelName, brand, fipe_value) => {
-  console.log("BRAND", brand)
     try {
       const response = await fetch(`${API_URL}/models`, {
         method: 'POST',
@@ -100,19 +99,69 @@ const handleCreateModel = async (modelName, brand, fipe_value) => {
     }
   };
 
+  const handleCreateCar = async (model, fuel, year, numDoors, color) => {
+    const newCarObj = {
+      ano: year,
+      combustivel: fuel,
+      num_portas: Number(numDoors),
+      cor: color,
+      modelo_id: Number(model)
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/cars`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newCarObj)
+      });
+      
+      if (!response.ok) throw new Error('Erro ao criar carro');
+      
+      fetchCars();
+      setShowCreateNewModal({isOpen: false, content: ""});
+      
+    } catch (error) {
+      console.error('Erro ao criar carro:', error);
+      setError(error.message)
+    }
+  };
+
   const handleFilterChange = (filterName, value) => {
     setFilters(prev => ({ ...prev, [filterName]: value }));
   };
 
-  const toggleArrayFilter = (filterName, item) => {
-    setFilters(prev => {
-      const currentArray = prev[filterName];
-      const newArray = currentArray.includes(item)
-        ? currentArray.filter(i => i !== item)
-        : [...currentArray, item];
-      return { ...prev, [filterName]: newArray };
-    });
-  };
+  // Sidemenu.jsx
+const toggleBrandSelection = (brandId) => {
+  setFilters(prev => {
+    const newSelectedBrands = prev.selectedBrands.includes(brandId)
+      ? prev.selectedBrands.filter(id => id !== brandId)
+      : [...prev.selectedBrands, brandId];
+    
+    return {
+      ...prev,
+      selectedBrands: newSelectedBrands,
+      // Limpar modelos selecionados quando muda as marcas
+      selectedModels: [] 
+    };
+  });
+};
+
+const toggleModelSelection = (modelId) => {
+  setFilters(prev => ({
+    ...prev,
+    selectedModels: prev.selectedModels.includes(modelId)
+      ? prev.selectedModels.filter(id => id !== modelId)
+      : [...prev.selectedModels, modelId]
+  }));
+};
+
+const filteredModels = filters.selectedBrands.length > 0
+  ? modelOptions.filter(model => 
+      filters.selectedBrands.includes(model.marca_id)
+    )
+  : [];
 
   //gerar anos de 1950 até o ano atual
   const currentYear = new Date().getFullYear();
@@ -123,7 +172,7 @@ const handleCreateModel = async (modelName, brand, fipe_value) => {
       <div className={styles.header}>
         <button
           className={styles.newCarButton}
-        // onClick={onCreateNewCar}
+          onClick={() => setShowCreateNewModal({isOpen: true, content: "newCar"})}
         >
           + Anunciar novo carro
         </button>
@@ -153,8 +202,8 @@ const handleCreateModel = async (modelName, brand, fipe_value) => {
           {brandOptions.map(brand => (
             <div
               key={brand.id}
-              className={`${styles.optionItem} ${filters.brands.includes(brand) ? styles.selected : ''}`}
-              onClick={() => toggleArrayFilter('brands', brand)}
+              className={`${styles.optionItem} ${filters.selectedBrands.includes(brand.id) ? styles.selected : ''}`}
+              onClick={() => toggleBrandSelection(brand.id)}
             >
               {brand.nome_marca}
             </div>
@@ -162,17 +211,17 @@ const handleCreateModel = async (modelName, brand, fipe_value) => {
         </div>
       </div>
 
-      {filters.brands.length > 0 && (
+      {filters.selectedBrands.length > 0 && (
         <div className={styles.filterSection}>
           <h3 className={styles.sectionTitle}>Modelo</h3>
           <div className={styles.optionsContainer}>
-            {modelOptions.map(model => (
+            {filteredModels.map(model => (
               <div
-                key={model}
-                className={`${styles.optionItem} ${filters.models.includes(model) ? styles.selected : ''}`}
-                onClick={() => toggleArrayFilter('models', model)}
+                key={model.id}
+                className={`${styles.optionItem} ${filters.selectedModels.includes(model.id) ? styles.selected : ''}`}
+                onClick={() => toggleModelSelection(model.id)}
               >
-                {model}
+                {model.nome}
               </div>
             ))}
           </div>
@@ -274,15 +323,15 @@ const handleCreateModel = async (modelName, brand, fipe_value) => {
       <div className={styles.actionButtons}>
         <button
           className={styles.applyButton}
-          onClick={() => onApplyFilters(filters)}
+          onClick={() => handleApplyFilters(filters)}
         >
           Aplicar Filtros
         </button>
         <button
           className={styles.resetButton}
           onClick={() => setFilters({
-            brands: [],
-            models: [],
+            selectedBrands: [],
+            selectedModels: [],
             doors: '',
             color: '',
             fuelType: '',
@@ -301,7 +350,9 @@ const handleCreateModel = async (modelName, brand, fipe_value) => {
         onCreateBrand={handleCreateBrand}
         content={showCreateNewModal.content}
         brandOptions={brandOptions}
+        modelOptions={modelOptions}
         onCreateModel={handleCreateModel}
+        onCreateCar={handleCreateCar}
       />}
     </div>
   )
