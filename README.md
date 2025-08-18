@@ -82,7 +82,7 @@ cars-frontend/     # Frontend (ReactJS)
   <p>Exemplo de filtros selecionados - Marca "Fiat" - Modelo "Uno" - Número de portas "2", Cor "Roxo"</p>
   <img alt="WebFilterExample1" title="#WebFilterExample1" src="https://github.com/JoaoGabrielVargas/cars-list/blob/main/cars-frontend/src/assets/print_filter_example1.png" width="800px">
   <p>Exemplo de filtros selecionando apenas "Uno" como modelo e sem filtros adicionais, resultando na lista com todos Uno's</p>
-  <img alt="WebFilterExample2" title="#WebFilterExample2" src="https://github.com/JoaoGabrielVargas/cars-list/blob/main/cars-frontend/src/assets/print_filter_example1.png" width="800px">
+  <img alt="WebFilterExample2" title="#WebFilterExample2" src="https://github.com/JoaoGabrielVargas/cars-list/blob/main/cars-frontend/src/assets/print_filter_example2.png" width="800px">
 </p>
 
 ---
