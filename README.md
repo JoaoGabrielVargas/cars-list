@@ -131,9 +131,9 @@ yarn install
 
 3. Execute o frontend:
 ```bash
-npm start
+npm run dev
 # ou
-yarn start
+yarn run dev
 ```
 
 O frontend será iniciado em `http://localhost:3000` e se conecta ao backend em `http://localhost:5000`.
